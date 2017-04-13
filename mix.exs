@@ -36,6 +36,7 @@ defmodule OnMaintenance.Mixfile do
       {:poison, "~> 1.0"},
       {:sqlitex, "~> 1.3"},
       {:mock, "~> 0.2.0", only: :test},
+      {:inch_ex, only: :docs}
     ]
   end
 end

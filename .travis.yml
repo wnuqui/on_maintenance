@@ -1,0 +1,25 @@
+language: elixir
+elixir:
+  - 1.4.0
+otp_release:
+  - 19.1
+  - 19.2
+  - 19.3
+sudo: required
+dist: trusty
+cache: apt
+env:
+  matrix:
+    - MIX_ENV=test
+install:
+  - mix local.hex --force
+  - mix local.rebar --force
+  - mix deps.get
+script:
+  - mix test
+after_script:
+  - mix deps.get --only docs
+  - MIX_ENV=docs mix inch.report
+notifications:
+  recipients:
+    - dofreewill22@gmail.com
