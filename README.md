@@ -29,7 +29,7 @@ Add `on_maitnenance` to your project dependencies in mix.exs:
 defp deps do
   [
     ...
-    {:on_maintenance, "~> 0.5"}
+    {:on_maintenance, "~> 0.5.2"}
   ]
 end
 ```
