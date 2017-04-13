@@ -16,7 +16,7 @@ _Enable maintenance mode for your Plug based Elixir applications._
 - [Installation](#installation)
 - [Setup](#setup)
 - ["retry-after" response header](#retry-after-response-header)
-- [Example 503 responses (default)](#example-responses)
+- [Example 503 responses (default)](#example-503-responses-default)
 - [Custom 503 Message](#custom-503-message)
 
 ## Installation
