@@ -9,9 +9,6 @@ defmodule Mix.Tasks.Maintenance.InitConfigStore do
   @moduledoc """
   Creates ".on_maintenance.sqlite3" database which contains only 1 table.
   The table, named "on_maintenance_configs", is initialized with 1 row of data:
-    | on_maintenance  | retry_after   |
-    | --------------- | ------------- |
-    | 0               | 0             |
   - **0** value for **on_maintenance** means the application is not in maintenance mode.
   - **1** value for **retry_after** no `retry-after` header for 503 response.
 
