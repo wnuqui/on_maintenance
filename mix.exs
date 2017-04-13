@@ -3,11 +3,13 @@ defmodule OnMaintenance.Mixfile do
 
   def project do
     [app: :on_maintenance,
-     version: "0.1.0",
+     version: "0.5.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     description: description(),
+     package: package(),]
   end
 
   # Configuration for the OTP application
@@ -18,15 +20,6 @@ defmodule OnMaintenance.Mixfile do
     [extra_applications: [:logger, :cowboy, :plug]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
@@ -36,7 +29,26 @@ defmodule OnMaintenance.Mixfile do
       {:poison, "~> 1.0"},
       {:sqlitex, "~> 1.3"},
       {:mock, "~> 0.2.0", only: :test},
-      {:inch_ex, only: :docs}
+      {:inch_ex, only: :docs},
+      {:ex_doc, ">= 0.0.0", only: :dev}
+    ]
+  end
+
+  defp description do
+    """
+    Plug.OnMaintenance, an Elixir Plug, is used to disable access to your application for some length of time.
+    """
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md"],
+      maintainers: ["Wilfrido T. Nuqui Jr."],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/wnuqui/on_maintenance",
+        "Docs" => "http://hexdocs.pm/on_maintenance"
+      }
     ]
   end
 end
