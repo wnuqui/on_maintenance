@@ -5,7 +5,7 @@
 # Plug.OnMaintenance
 
 [![Build Status](https://travis-ci.org/wnuqui/on_maintenance.png?branch=master)](https://travis-ci.org/wnuqui/on_maintenance)
-[![Inline docs](http://inch-ci.org/github/wnuqui/on_maintenance.png?branch=master&style=flat)](http://inch-ci.org/github/wnuqui/on_maintenance)
+[![Inline docs](http://inch-ci.org/github/wnuqui/on_maintenance.png?branch=master&style=flat)](http://inch-ci.org/github/wnuqui/on_maintenance) [![Release](http://img.shields.io/github/release/wnuqui/on_maintenance.svg)](https://github.com/wnuqui/on_maintenance/releases/latest) [![Hex Version](https://img.shields.io/hexpm/v/on_maintenance.svg "Hex Version")](https://hex.pm/packages/on_maintenance)
 
 _Enable maintenance mode for your Plug based Elixir applications._
 
