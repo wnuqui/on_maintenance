@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Maintenance.InitConfigStore do
   use Mix.Task
-  import Plug.OnMaintenance.Util, only: [on_maintenance_db: 0, select_sql: 0, insert_record_sql: 3]
+  import Plug.OnMaintenance.Util
 
   @shortdoc "Create .on_maintenance.sqlite3 database."
 

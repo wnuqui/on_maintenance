@@ -2,7 +2,6 @@ defmodule Mix.Tasks.Maintenance.Disable do
   use Mix.Task
 
   @shortdoc "Disables maintenance mode for application."
-  @recursive true
 
   @moduledoc """
   Disables maintenance mode for application..

@@ -1,7 +1,7 @@
 Mix.shell(Mix.Shell.Process)
 
 defmodule  Mix.Tasks.Maintenance.InitConfigStoreTest do
-  use Plug.OnMaintenance.EnabledTestCase
+  use ExUnit.Case
   import Plug.OnMaintenance.Util, only: [on_maintenance_db: 0]
 
   setup do
