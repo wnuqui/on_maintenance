@@ -20,8 +20,16 @@ defmodule Plug.OnMaintenance do
     if on_maintenance?() do
       {body, content_type} = get_body_and_content_type(conn)
 
+      retry_after = retry_after_header()
+
+      conn =
+        if retry_after do
+          conn |> put_resp_header("retry-after", retry_after_header())
+        else
+          conn
+        end
+
       conn
-      |> put_resp_header("retry-after", retry_after_header())
       |> put_resp_content_type(content_type)
       |> send_resp(503, body)
       |> halt()

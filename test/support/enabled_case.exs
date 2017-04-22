@@ -11,7 +11,7 @@ defmodule Plug.OnMaintenance.EnabledTestCase do
     quote do
       use Plug.OnMaintenance.TestCase
       import Plug.OnMaintenance.EnabledTestCase
-      import Plug.OnMaintenance.Util, only: [enable_maintenance: 0]
+      import Plug.OnMaintenance.Util, only: [enable_maintenance: 1]
     end
   end
 
