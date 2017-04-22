@@ -1,25 +1,22 @@
-require Logger
-
 defmodule Plug.OnMaintenance.Util do
   @on_maintenance_db ".on_maintenance.sqlite3"
   @message "Application on scheduled maintenance."
 
   def on_maintenance? do
     {:ok, db} = Sqlitex.open(@on_maintenance_db)
+    records = Sqlitex.query!(db, select_sql())
+    on_maintenance = Enum.map(records, &(&1[:on_maintenance]))
 
-    query = "SELECT id, on_maintenance FROM on_maintenance_configs ORDER BY id DESC LIMIT 1"
-    rows = Enum.map(Sqlitex.query!(db, query), &(&1[:on_maintenance]))
-
-    hd(rows) == 1
+    hd(on_maintenance) == 1
   end
 
-  def enable_maintenance(retry_after \\ 0) do
-    Logger.info "Putting application in maintenace mode."
+  def enable_maintenance(retry_after) do
+    Mix.shell.info "Putting application in maintenance mode."
     do_enable_maintenance(true, retry_after)
   end
 
   def disable_maintenance do
-    Logger.info "Disabling maintenance mode for application."
+    Mix.shell.info "Disabling maintenance mode for application."
     do_enable_maintenance(false)
   end
 
@@ -32,10 +29,21 @@ defmodule Plug.OnMaintenance.Util do
   def retry_after_header do
     {:ok, db} = Sqlitex.open(@on_maintenance_db)
 
-    query = "SELECT id, retry_after FROM on_maintenance_configs ORDER BY id DESC LIMIT 1"
-    rows = Enum.map(Sqlitex.query!(db, query), &(&1[:retry_after]))
+    records = Sqlitex.query!(db, select_sql())
+    retry_after = Enum.map(records, &(&1[:retry_after]))
 
-    rows |> hd() |> to_string()
+    retry_after = retry_after |> hd()
+    if retry_after == 0, do: nil, else: to_string(retry_after)
+  end
+
+  def insert_record_sql(on_maintenance, retry_after, created_at) do
+    "INSERT INTO on_maintenance_configs ("                  <> "\n" <> \
+    "  on_maintenance, retry_after, created_at, updated_at" <> "\n" <> \
+    ") " <>  "VALUES (" <> on_maintenance <> ", " <> retry_after <> ", '" <> created_at <> "', '" <> created_at <> "')"
+  end
+
+  def select_sql do
+    "SELECT id, on_maintenance, retry_after FROM on_maintenance_configs ORDER BY id DESC LIMIT 1"
   end
 
   defp do_enable_maintenance(enable, retry_after_val \\ 0) do
@@ -43,8 +51,8 @@ defmodule Plug.OnMaintenance.Util do
 
     created_at = DateTime.utc_now() |> DateTime.to_iso8601()
     on_maintenance = if enable, do: "1", else: "0"
-    retry_after = if enable, do: to_string(retry_after_val), else: "0"
 
-    :ok = Sqlitex.exec(db, "INSERT INTO on_maintenance_configs (on_maintenance, retry_after, created_at, updated_at) VALUES (" <> on_maintenance <> "," <> retry_after <> ", '" <> created_at <> "', '" <> created_at <> "')")
+    sql = insert_record_sql(on_maintenance, to_string(retry_after_val), created_at)
+    :ok = Sqlitex.exec(db, sql)
   end
 end

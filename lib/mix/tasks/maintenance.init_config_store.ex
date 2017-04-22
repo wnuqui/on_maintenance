@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Maintenance.InitConfigStore do
   use Mix.Task
-  import Plug.OnMaintenance.Util, only: [on_maintenance_db: 0]
+  import Plug.OnMaintenance.Util, only: [on_maintenance_db: 0, select_sql: 0, insert_record_sql: 3]
 
   @shortdoc "Create .on_maintenance.sqlite3 database."
 
@@ -23,7 +23,12 @@ defmodule Mix.Tasks.Maintenance.InitConfigStore do
     {:ok, db} = Sqlitex.open(on_maintenance_db())
 
     :ok = Sqlitex.exec(db, create_table_sql())
-    :ok = Sqlitex.exec(db, insert_record_sql())
+
+    on_maintenance = "0"
+    retry_after = "0"
+    created_at = DateTime.utc_now() |> DateTime.to_iso8601()
+
+    :ok = Sqlitex.exec(db, insert_record_sql(on_maintenance, retry_after, created_at))
 
     records = Sqlitex.query!(db, select_sql())
     records = Enum.map(records, &(&1[:on_maintenance]))
@@ -45,17 +50,5 @@ defmodule Mix.Tasks.Maintenance.InitConfigStore do
       updated_at datetime NOT NULL
     )
     """
-  end
-
-  defp insert_record_sql do
-    now = DateTime.utc_now() |> DateTime.to_iso8601()
-
-    "INSERT INTO on_maintenance_configs ("                  <> "\n" <> \
-    "  on_maintenance, retry_after, created_at, updated_at" <> "\n" <> \
-    ") " <>  "VALUES (0, 0, '" <> now <> "', '" <> now <> "')"
-  end
-
-  defp select_sql do
-    "SELECT id, on_maintenance FROM on_maintenance_configs ORDER BY id DESC LIMIT 1"
   end
 end
