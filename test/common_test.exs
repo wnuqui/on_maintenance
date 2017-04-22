@@ -18,7 +18,7 @@ defmodule CommonTest do
       assert {503, _, _} = sent_resp(conn)
     end
 
-    test "retry-header is 300(default)", %{conn: conn} do
+    test "retry-header is 300", %{conn: conn} do
       assert get_resp_header(conn, "retry-after") == ["300"]
     end
 
@@ -44,7 +44,7 @@ defmodule CommonTest do
       assert {503, _, _} = sent_resp(conn)
     end
 
-    test "retry-header is 300(default)", %{conn: conn} do
+    test "retry-header is nil", %{conn: conn} do
       assert get_resp_header(conn, "retry-after") == []
     end
 
