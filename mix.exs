@@ -3,7 +3,7 @@ defmodule OnMaintenance.Mixfile do
 
   def project do
     [app: :on_maintenance,
-     version: "0.5.2",
+     version: "0.7.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
