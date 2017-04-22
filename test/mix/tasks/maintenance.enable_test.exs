@@ -17,7 +17,7 @@ defmodule  Mix.Tasks.Maintenance.EnableTest do
       assert_received {:mix_shell, :info, [_]}
       {:ok, db} = Sqlitex.open(on_maintenance_db())
       Mix.Tasks.Maintenance.Enable.run(["--retry-after=300"])
-      %{db: db }
+      %{db: db}
     end
 
     test "sets `on_maintenance` column to 1", %{db: db} do

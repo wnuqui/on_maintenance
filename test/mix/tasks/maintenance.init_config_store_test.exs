@@ -2,7 +2,7 @@ Mix.shell(Mix.Shell.Process)
 
 defmodule  Mix.Tasks.Maintenance.InitConfigStoreTest do
   use ExUnit.Case
-  import Plug.OnMaintenance.Util, only: [on_maintenance_db: 0]
+  import Plug.OnMaintenance.Util, only: [on_maintenance_db: 0, select_sql: 0]
 
   setup do
     File.rm on_maintenance_db()
@@ -29,7 +29,6 @@ defmodule  Mix.Tasks.Maintenance.InitConfigStoreTest do
 
     test "prints log to shell" do
       Mix.Tasks.Maintenance.InitConfigStore.run([])
-
       assert_received {:mix_shell, :info, [info]}
 
       assert info == \
@@ -44,8 +43,7 @@ defmodule  Mix.Tasks.Maintenance.InitConfigStoreTest do
       Mix.Tasks.Maintenance.InitConfigStore.run([])
 
       {:ok, db} = Sqlitex.open(on_maintenance_db())
-      query = "SELECT id, on_maintenance, retry_after FROM on_maintenance_configs"
-      config = Sqlitex.query!(db, query)
+      config = Sqlitex.query!(db, select_sql())
       %{config: config}
     end
 
