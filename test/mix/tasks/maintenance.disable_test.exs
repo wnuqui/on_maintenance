@@ -17,7 +17,7 @@ defmodule  Mix.Tasks.Maintenance.DisableTest do
       assert_received {:mix_shell, :info, [_]}
       {:ok, db} = Sqlitex.open(on_maintenance_db())
       Mix.Tasks.Maintenance.Disable.run([])
-      %{db: db }
+      %{db: db}
     end
 
     test "sets `on_maintenance` column to 0", %{db: db} do

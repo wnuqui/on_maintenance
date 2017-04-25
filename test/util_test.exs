@@ -30,7 +30,7 @@ defmodule Plug.OnMaintenance.UtilTest do
       assert_received {:mix_shell, :info, [_]}
       {:ok, db} = Sqlitex.open(on_maintenance_db())
       enable_maintenance(300)
-      %{db: db }
+      %{db: db}
     end
 
     test "sets `on_maintenance` column to 1", %{db: db} do
@@ -81,7 +81,7 @@ defmodule Plug.OnMaintenance.UtilTest do
     end
   end
 
-  describe "retry_after_header?/0" do
+  describe "retry_after_header/0" do
     test "returns a value" do
       enable_maintenance 300
       assert retry_after_header() == "300"
